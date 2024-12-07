@@ -1,49 +1,64 @@
-import React from 'react'
+import { useEffect, useState } from "react";
+import { Bar, BarChart, CartesianGrid, XAxis, YAxis, Legend, Tooltip } from "recharts";
+import axios from "axios";
 
-import { Bar, BarChart, CartesianGrid, XAxis } from "recharts"
-import { ChartConfig, ChartContainer } from '../components/Chart'
- 
+const BarChartComponent = ({ selectedMonth }: { selectedMonth: string }) => {
+  const [barchartdata, setBarchartData] = useState([]);
 
- 
-const chartData = [
-  { month: "January", desktop: 186, mobile: 80 },
-  { month: "February", desktop: 305, mobile: 200 },
-  { month: "March", desktop: 237, mobile: 120 },
-  { month: "April", desktop: 73, mobile: 190 },
-  { month: "May", desktop: 209, mobile: 130 },
-  { month: "June", desktop: 214, mobile: 140 },
-]
- 
-const chartConfig = {
-  desktop: {
-    label: "Desktop",
-    color: "#2563eb",
-  },
-  mobile: {
-    label: "Mobile",
-    color: "#60a5fa",
-  },
-} satisfies ChartConfig
+  useEffect(() => {
+    const fetchChartData = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:3000/bar-chart?month=${selectedMonth}`
+        );
 
-const Barchart = () => {
+       
+
+        setBarchartData(response.data);
+      } catch (error) {
+        console.error("Error fetching bar chart data", error);
+      }
+    };
+
+    fetchChartData();
+  }, [selectedMonth]);
+
+  const formatData = (number: number) => {
+    if (number > 1000) {
+      return `${(number / 1000).toString()}k`;
+    }
+    return number.toString();
+  };
+
   return (
-    <div>
-      <ChartContainer config={chartConfig} className="h-[200px] w-full">
-  <BarChart accessibilityLayer data={chartData}>
-    <CartesianGrid vertical={false} />
-    <XAxis
-      dataKey="month"
-      tickLine={false}
-      tickMargin={10}
-      axisLine={false}
-      tickFormatter={(value) => value.slice(0, 3)}
-    />
-    <Bar dataKey="desktop" fill="var(--color-desktop)" radius={4} />
-    <Bar dataKey="mobile" fill="var(--color-mobile)" radius={4} />
-  </BarChart>
-</ChartContainer>
+    <div className="p-4 bg-gradient-to-r from-yellow-200 to-amber-300">
+      <h2 className="text-lg font-bold mb-4 bg-gradient-to-r from-stone-500 to-stone-800 bg-clip-text text-transparent">Bar Chart Distribution</h2>
+        <BarChart
+        width={600}
+        height={300}
+        data={barchartdata}
+        margin={{ top: 20, right: 30, left: 20, bottom: 20 }}
+      >
+        <CartesianGrid strokeDasharray="3 3" />
+        <XAxis
+          dataKey="range"
+          
+          label={{ value: "Price Range", position: "insideBottom", offset: -10 }}
+        />
+        <YAxis
+           tickFormatter={formatData}
+          label={{
+            value: "Count",
+            angle: -90,
+            position: "insideLeft",
+          }}
+        />
+        <Tooltip />
+        <Bar dataKey="count" fill="#2563eb" radius={[4, 4, 0, 0]} />
+      </BarChart>
     </div>
-  )
-}
+  
+  );
+};
 
-export default Barchart
+export default BarChartComponent;

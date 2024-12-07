@@ -1,6 +1,6 @@
 import express  from 'express';
 import cors from "cors"
-import axios, { all } from "axios"
+import axios from "axios"
 import prisma from "./db";
 const app=express();
 
@@ -82,6 +82,7 @@ app.get("/transactions",async (req,res)=>{
    try {
       const transactions=await prisma.data.findMany({
          where:{
+            
             dateOfSale:{
                gte:new Date(new Date().getFullYear(),monthind-1,1 ),
                lte:new Date(new Date().getFullYear(),monthind,1)
@@ -104,8 +105,8 @@ app.get("/transactions",async (req,res)=>{
                }
             ]
          },
-         skip,
-         take
+         skip:skip,
+         take:take
       })
 
       res.status(200).json({
