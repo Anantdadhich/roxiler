@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis, Legend, Tooltip } from "recharts";
 import axios from "axios";
 
-const BarChartComponent = ({ selectedMonth }: { selectedMonth: number }) => {
+const BarChartComponent = ({ selectedMonth }: { selectedMonth: string }) => {
   const [barchartdata, setBarchartData] = useState<
     { range: string; count: number }[]
   >([]);
@@ -28,20 +28,20 @@ const BarChartComponent = ({ selectedMonth }: { selectedMonth: number }) => {
 
   const formatData = (number: number) => {
     if (number > 1000) {
-      return `${(number / 1000).toFixed(1)}k`; // Ensures a decimal point for thousands
+      return `${(number / 1000).toFixed(1)}k`; 
     }
     return number.toString();
   };
 
   return (
-    <div className="p-4 bg-slate-100 rounded-lg shadow">
-      <h2 className="text-lg font-bold mb-4">Bar Chart Distribution</h2>
+    <div className="p-4 bg-violet-200 rounded-lg shadow">
+      <h2 className="text-lg font-bold mb-4">Chart Distribution {selectedMonth}</h2>
       {error ? (
         <div className="text-red-500 text-center">{error}</div>
       ) : (
-        <BarChart
-          width={600}
-          height={300}
+        <BarChart className="text-black bg-white "
+          width={900}
+          height={400}
           data={barchartdata}
           margin={{ top: 20, right: 30, left: 20, bottom: 20 }}
         >
@@ -54,7 +54,7 @@ const BarChartComponent = ({ selectedMonth }: { selectedMonth: number }) => {
               offset: -10,
             }}
           />
-          <YAxis
+          <YAxis 
             tickFormatter={formatData}
             label={{
               value: "Count",
@@ -64,7 +64,7 @@ const BarChartComponent = ({ selectedMonth }: { selectedMonth: number }) => {
           />
           <Tooltip />
           <Legend />
-          <Bar dataKey="count" fill="#2563eb" radius={[4, 4, 0, 0]} />
+          <Bar dataKey="count" fill="#fffff" radius={[4, 4, 0, 0]} />
         </BarChart>
       )}
     </div>

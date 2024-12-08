@@ -7,7 +7,7 @@ interface Stats {
   totalUnsoldItems: number;
 }
 
-export const Statistics = ({ selectedMonth }: { selectedMonth: number }) => {
+export const Statistics = ({ selectedMonth }: { selectedMonth: string }) => {
     const [stats, setStats] = useState<Stats | null>(null);
     //@ts-ignore
   const [loading, setLoading] = useState(false);

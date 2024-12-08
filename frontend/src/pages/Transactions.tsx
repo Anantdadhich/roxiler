@@ -21,8 +21,8 @@ interface Transaction {
 
 const Transactions = () => {
   const [transactionList, setTransactionList] = useState<Transaction[]>([]);
-  const [selectedMonth, setSelectedMonth] = useState<number>(
-    new Date().getMonth() + 1
+  const [selectedMonth, setSelectedMonth] = useState<string>(
+   months[0]
   );
   const [searchInput, setSearchInput] = useState<string>("");
   const [page, setPage] = useState<number>(1);
@@ -36,7 +36,7 @@ const Transactions = () => {
       setError(""); 
       try {
         const response = await axios.get(
-          `http://localhost:3000/transactions?month=${selectedMonth}&page=${page}&search=${searchInput}&limit=10`
+          `http://localhost:3000/transactions?month=${selectedMonth}&page=${page}&search=${searchInput}`
         );
 
         if (response) {
@@ -59,7 +59,7 @@ const Transactions = () => {
   };
 
   return (
-    <div className="h-screen w-full font-mono p-4 bg-gradient-to-r from-violet-400 to-violet-600">
+    <div className="h-auto overflow-auto w-full font-mono p-4 bg-gradient-to-r from-violet-400 to-violet-600">
       <div className="flex flex-col items-center">
 
         <h1 className="text-2xl font-bold bg-gradient-to-r from-amber-800 to-rose-950 bg-clip-text text-transparent mb-4">
@@ -76,7 +76,7 @@ const Transactions = () => {
           />
           <select
             value={selectedMonth}
-            onChange={(e) => setSelectedMonth(parseInt(e.target.value))}
+            onChange={(e) => setSelectedMonth((e.target.value))}
             className="border border-gray-300 rounded-md px-2 py-1"
           >
             <option value="">All Months</option>
