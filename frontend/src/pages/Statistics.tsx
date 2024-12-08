@@ -1,9 +1,15 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-export const Statistics = ({ selectedMonth }: { selectedMonth: string }) => {
-  const [stats, setStats] = useState({
-  });
+interface Stats {
+  totalSales: number;
+  totalSoldItems: number;
+  totalUnsoldItems: number;
+}
+
+export const Statistics = ({ selectedMonth }: { selectedMonth: number }) => {
+    const [stats, setStats] = useState<Stats | null>(null);
+    //@ts-ignore
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -26,12 +32,12 @@ export const Statistics = ({ selectedMonth }: { selectedMonth: string }) => {
   }, [selectedMonth]);
 
   return (
-    <div className="p-4 bg-gradient-to-r from-yellow-200 to-amber-300 rounded-lg shadow">
+    <div className="p-4 bg-gray-100">
       <h2 className="text-lg font-bold mb-2">Statistics for {selectedMonth}</h2>
        <div className='statitics-container'>
-            <div className='element'><span>Total Sale</span> <span>{}</span></div>
-            <div className='element'><span>Total sold item</span> <span>{}</span></div>
-            <div className='element'><span>Total not sold item</span> <span>{}</span></div>
+            <div className='element'><span>Total Sale</span> <span>{stats?.totalSales}</span></div>
+            <div className='element'><span>Total sold item</span> <span>{stats?.totalSoldItems}</span></div>
+            <div className='element'><span>Total not sold item</span> <span>{stats?.totalUnsoldItems}</span></div>
         </div>
       
     </div>
