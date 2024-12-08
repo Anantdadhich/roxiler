@@ -5,7 +5,7 @@ But Read the code not too much done for frontend simple frontend .
 
 ## Tech Stack
 
-Frontend: React, TypeScript, Tailwind CSS ,recharts
+Frontend: React, TypeScript, Tailwind CSS ,recharts ,axios
 Backend:Express , Typescript , Prisma ORM for database , axios , Neontech database
 
 ## API Endpoints
@@ -21,3 +21,7 @@ GET /combined-data: Fetch data for all endpoints.
 As you see the data is Stored but got some errors in fetching the data
 
 ![alt text](dbss.jpeg)
+
+having bugs in code but you can see the code
+
+![alt text](front.jpeg)
